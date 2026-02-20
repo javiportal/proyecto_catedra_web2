@@ -11,51 +11,31 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="bg-white shadow-sm border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
-          <Link to="/" className="flex items-center gap-2">
-            <span className="text-2xl">🎟️</span>
-            <span className="text-xl font-bold text-blue-700">La Cuponera</span>
-          </Link>
+    <nav className="navbar">
+      <div className="nav-inner">
+        <Link to="/" className="nav-logo">
+          <span className="nav-logo-icon">🎟️</span>
+          La <span className="nav-logo-accent">Cuponera</span>
+        </Link>
 
-          <div className="flex items-center gap-4">
-            <Link to="/" className="text-gray-600 hover:text-blue-600">
-              Ofertas
-            </Link>
+        <div className="nav-links">
+          <Link to="/" className="nav-link">Ofertas</Link>
 
-            {user ? (
-              <>
-                <Link to="/mis-cupones" className="text-gray-600 hover:text-blue-600">
-                  Mis Cupones
-                </Link>
-                <Link to="/cambiar-password" className="text-gray-600 hover:text-blue-600">
-                  Cambiar Contraseña
-                </Link>
-                <span className="text-sm text-gray-500">
-                  {profile?.nombres || user.email}
-                </span>
-                <button
-                  onClick={handleSignOut}
-                  className="bg-red-50 text-red-600 px-4 py-2 rounded-lg text-sm font-medium hover:bg-red-100"
-                >
-                  Cerrar Sesión
-                </button>
-              </>
-            ) : (
-              <>
-                <Link to="/login" className="text-gray-600 hover:text-blue-600">
-                  Iniciar Sesión
-                </Link>
-                <Link
-                  to="/registro"
-                  className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700"
-                >
-                  Registrarse
-                </Link>
-              </>
-            )}
-          </div>
+          {user ? (
+            <>
+              <Link to="/mis-cupones" className="nav-link">Mis Cupones</Link>
+              <Link to="/cambiar-password" className="nav-link">Contraseña</Link>
+              <span className="nav-user">{profile?.nombres || user.email}</span>
+              <button onClick={handleSignOut} className="btn-nav-danger">
+                Salir
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="nav-link">Iniciar Sesión</Link>
+              <Link to="/registro" className="btn-nav-cta">Registrarse</Link>
+            </>
+          )}
         </div>
       </div>
     </nav>

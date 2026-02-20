@@ -35,40 +35,42 @@ export default function ChangePasswordPage() {
   }
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-4">
-      <div className="w-full max-w-md">
-        <h1 className="text-3xl font-bold text-gray-900 text-center mb-8">Cambiar Contraseña</h1>
+    <div className="auth-page">
+      <div className="auth-card">
+        <div className="auth-brand">
+          <div className="auth-brand-icon">🔐</div>
+          <p className="auth-brand-logo">La <span>Cuponera</span></p>
+        </div>
 
-        <form onSubmit={handleSubmit} className="bg-white shadow-sm rounded-xl border border-gray-200 p-8 space-y-5">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Nueva contraseña</label>
+        <h1 className="auth-title">Cambiar Contraseña</h1>
+        <p className="auth-sub">Establece una nueva contraseña segura para tu cuenta</p>
+
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label className="form-label">Nueva contraseña</label>
             <input
               type="password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="form-input"
               placeholder="Mínimo 6 caracteres"
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Confirmar contraseña</label>
+          <div className="form-group">
+            <label className="form-label">Confirmar contraseña</label>
             <input
               type="password"
               required
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="form-input"
               placeholder="Repite la nueva contraseña"
             />
           </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 text-white py-2.5 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50"
-          >
+          <button type="submit" disabled={loading} className="btn-submit">
             {loading ? 'Actualizando...' : 'Actualizar Contraseña'}
           </button>
         </form>

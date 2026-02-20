@@ -25,48 +25,52 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-4">
-      <div className="w-full max-w-md">
-        <h1 className="text-3xl font-bold text-gray-900 text-center mb-2">Recuperar Contraseña</h1>
-        <p className="text-center text-gray-500 mb-8">
+    <div className="auth-page">
+      <div className="auth-card">
+        <div className="auth-brand">
+          <div className="auth-brand-icon">🎟️</div>
+          <p className="auth-brand-logo">La <span>Cuponera</span></p>
+        </div>
+
+        <h1 className="auth-title">Recuperar Contraseña</h1>
+        <p className="auth-sub">
           Te enviaremos un enlace para restablecer tu contraseña.
         </p>
 
         {sent ? (
-          <div className="bg-green-50 border border-green-200 rounded-xl p-8 text-center">
-            <p className="text-green-700 font-medium">¡Correo enviado!</p>
-            <p className="text-sm text-green-600 mt-2">
-              Revisa tu bandeja de entrada y sigue las instrucciones.
+          <div className="success-card">
+            <div className="success-icon">✉️</div>
+            <p className="success-title">¡Correo enviado!</p>
+            <p className="success-text">
+              Revisa tu bandeja de entrada y sigue las instrucciones para restablecer tu contraseña.
             </p>
-            <Link to="/login" className="mt-4 inline-block text-blue-600 font-medium hover:underline">
-              Volver al inicio de sesión
-            </Link>
+            <div style={{ marginTop: '20px' }}>
+              <Link to="/login" className="form-link">
+                ← Volver al inicio de sesión
+              </Link>
+            </div>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="bg-white shadow-sm rounded-xl border border-gray-200 p-8 space-y-5">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Correo electrónico</label>
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label className="form-label">Correo electrónico</label>
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                className="form-input"
                 placeholder="tucorreo@ejemplo.com"
               />
             </div>
 
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-blue-600 text-white py-2.5 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50"
-            >
+            <button type="submit" disabled={loading} className="btn-submit">
               {loading ? 'Enviando...' : 'Enviar enlace de recuperación'}
             </button>
 
-            <p className="text-center text-sm text-gray-500">
-              <Link to="/login" className="text-blue-600 font-medium hover:underline">
-                Volver al inicio de sesión
+            <p className="form-link-subtle">
+              <Link to="/login" className="form-link">
+                ← Volver al inicio de sesión
               </Link>
             </p>
           </form>

@@ -19,9 +19,10 @@ export default function LoginPage() {
       toast.success('¡Bienvenido!')
       navigate('/')
     } catch (error) {
-      toast.error(error.message === 'Invalid login credentials'
-        ? 'Correo o contraseña incorrectos'
-        : error.message
+      toast.error(
+        error.message === 'Invalid login credentials'
+          ? 'Correo o contraseña incorrectos'
+          : error.message
       )
     } finally {
       setLoading(false)
@@ -29,63 +30,56 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-4">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Iniciar Sesión</h1>
-          <p className="mt-2 text-gray-500">Ingresa a tu cuenta de La Cuponera</p>
+    <div className="auth-page">
+      <div className="auth-card">
+        <div className="auth-brand">
+          <div className="auth-brand-icon">🎟️</div>
+          <p className="auth-brand-logo">La <span>Cuponera</span></p>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-white shadow-sm rounded-xl border border-gray-200 p-8 space-y-5">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Correo electrónico
-            </label>
+        <h1 className="auth-title">Iniciar Sesión</h1>
+        <p className="auth-sub">Accede a tu cuenta para ver tus cupones</p>
+
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label className="form-label">Correo electrónico</label>
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="form-input"
               placeholder="tucorreo@ejemplo.com"
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Contraseña
-            </label>
+          <div className="form-group">
+            <label className="form-label">Contraseña</label>
             <input
               type="password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="form-input"
               placeholder="••••••••"
             />
           </div>
 
-          <div className="text-right">
-            <Link to="/forgot-password" className="text-sm text-blue-600 hover:underline">
+          <div style={{ textAlign: 'right', marginBottom: '24px', marginTop: '-6px' }}>
+            <Link to="/forgot-password" className="form-link">
               ¿Olvidaste tu contraseña?
             </Link>
           </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 text-white py-2.5 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50"
-          >
+          <button type="submit" disabled={loading} className="btn-submit">
             {loading ? 'Ingresando...' : 'Iniciar Sesión'}
           </button>
-
-          <p className="text-center text-sm text-gray-500">
-            ¿No tienes cuenta?{' '}
-            <Link to="/registro" className="text-blue-600 font-medium hover:underline">
-              Regístrate aquí
-            </Link>
-          </p>
         </form>
+
+        <p className="form-link-subtle">
+          ¿No tienes cuenta?{' '}
+          <Link to="/registro">Regístrate aquí</Link>
+        </p>
       </div>
     </div>
   )

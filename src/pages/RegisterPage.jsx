@@ -64,135 +64,133 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-4 py-10">
-      <div className="w-full max-w-lg">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Crear Cuenta</h1>
-          <p className="mt-2 text-gray-500">Regístrate para comprar cupones de descuento</p>
+    <div className="auth-page">
+      <div className="auth-card auth-card-wide">
+        <div className="auth-brand">
+          <div className="auth-brand-icon">🎟️</div>
+          <p className="auth-brand-logo">La <span>Cuponera</span></p>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-white shadow-sm rounded-xl border border-gray-200 p-8 space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Nombres</label>
+        <h1 className="auth-title">Crear Cuenta</h1>
+        <p className="auth-sub">Regístrate y empieza a ahorrar hoy mismo</p>
+
+        <form onSubmit={handleSubmit}>
+          <div className="form-grid-2">
+            <div className="form-group">
+              <label className="form-label">Nombres</label>
               <input
                 type="text"
                 name="nombres"
                 required
                 value={formData.nombres}
                 onChange={handleChange}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                className="form-input"
                 placeholder="Juan Carlos"
               />
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Apellidos</label>
+            <div className="form-group">
+              <label className="form-label">Apellidos</label>
               <input
                 type="text"
                 name="apellidos"
                 required
                 value={formData.apellidos}
                 onChange={handleChange}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                className="form-input"
                 placeholder="Martínez López"
               />
             </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
-            <input
-              type="tel"
-              name="telefono"
-              required
-              value={formData.telefono}
-              onChange={handleChange}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-              placeholder="7777-7777"
-            />
+          <div className="form-grid-2">
+            <div className="form-group">
+              <label className="form-label">Teléfono</label>
+              <input
+                type="tel"
+                name="telefono"
+                required
+                value={formData.telefono}
+                onChange={handleChange}
+                className="form-input"
+                placeholder="7777-7777"
+              />
+            </div>
+            <div className="form-group">
+              <label className="form-label">Número de DUI</label>
+              <input
+                type="text"
+                name="dui"
+                required
+                value={formData.dui}
+                onChange={handleChange}
+                className="form-input"
+                placeholder="00000000-0"
+              />
+            </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Correo electrónico</label>
+          <div className="form-group">
+            <label className="form-label">Correo electrónico</label>
             <input
               type="email"
               name="correo"
               required
               value={formData.correo}
               onChange={handleChange}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="form-input"
               placeholder="tucorreo@ejemplo.com"
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Dirección</label>
+          <div className="form-group">
+            <label className="form-label">Dirección</label>
             <input
               type="text"
               name="direccion"
               required
               value={formData.direccion}
               onChange={handleChange}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+              className="form-input"
               placeholder="Tu dirección completa"
             />
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Número de DUI</label>
-            <input
-              type="text"
-              name="dui"
-              required
-              value={formData.dui}
-              onChange={handleChange}
-              className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-              placeholder="00000000-0"
-            />
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+          <div className="form-grid-2">
+            <div className="form-group">
+              <label className="form-label">Contraseña</label>
               <input
                 type="password"
                 name="password"
                 required
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                className="form-input"
                 placeholder="Mínimo 6 caracteres"
               />
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Confirmar contraseña</label>
+            <div className="form-group">
+              <label className="form-label">Confirmar contraseña</label>
               <input
                 type="password"
                 name="confirmPassword"
                 required
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                className="form-input"
                 placeholder="Repite tu contraseña"
               />
             </div>
           </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 text-white py-2.5 rounded-lg font-medium hover:bg-blue-700 disabled:opacity-50 mt-2"
-          >
+          <button type="submit" disabled={loading} className="btn-submit">
             {loading ? 'Registrando...' : 'Crear Cuenta'}
           </button>
-
-          <p className="text-center text-sm text-gray-500">
-            ¿Ya tienes cuenta?{' '}
-            <Link to="/login" className="text-blue-600 font-medium hover:underline">
-              Inicia sesión
-            </Link>
-          </p>
         </form>
+
+        <p className="form-link-subtle">
+          ¿Ya tienes cuenta?{' '}
+          <Link to="/login">Inicia sesión</Link>
+        </p>
       </div>
     </div>
   )
