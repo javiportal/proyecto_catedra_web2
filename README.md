@@ -1,16 +1,74 @@
-# React + Vite
+# La Cuponera
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación web de cupones desarrollada con React, Vite, Tailwind CSS y Supabase.
 
-Currently, two official plugins are available:
+## Requisitos previos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Node.js](https://nodejs.org/) v18 o superior
+- npm (incluido con Node.js)
 
-## React Compiler
+## Instalación
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. **Clonar el repositorio**
 
-## Expanding the ESLint configuration
+```bash
+git clone https://github.com/tu-usuario/la-cuponera.git
+cd la-cuponera
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+2. **Instalar dependencias**
+
+```bash
+npm install
+```
+
+3. **Configurar variables de entorno**
+
+Copiar el archivo de ejemplo y completar con las credenciales de Supabase:
+
+```bash
+cp .env.example .env
+```
+
+Luego abrir `.env` y reemplazar los valores con las credenciales reales del proyecto:
+
+```
+VITE_SUPABASE_URL=https://tu-proyecto.supabase.co
+VITE_SUPABASE_ANON_KEY=tu_anon_key
+```
+
+> Pedir las credenciales al administrador del proyecto si no las tienes.
+
+## Ejecución
+
+**Modo desarrollo:**
+
+```bash
+npm run dev
+```
+
+La aplicación estará disponible en `http://localhost:5173`.
+
+**Construir para producción:**
+
+```bash
+npm run build
+```
+
+**Previsualizar build de producción:**
+
+```bash
+npm run preview
+```
+
+## Stack tecnológico
+
+| Tecnología | Uso |
+|---|---|
+| [React 19](https://react.dev/) | Librería de UI |
+| [Vite 7](https://vite.dev/) | Bundler y servidor de desarrollo |
+| [Tailwind CSS 4](https://tailwindcss.com/) | Framework de estilos |
+| [Supabase](https://supabase.com/) | Backend (auth, base de datos) |
+| [React Router 7](https://reactrouter.com/) | Enrutamiento |
+| [React Hot Toast](https://react-hot-toast.com/) | Notificaciones |
+| [jsPDF](https://github.com/parallax/jsPDF) | Generación de PDFs |
