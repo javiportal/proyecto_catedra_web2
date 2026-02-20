@@ -14,31 +14,86 @@ export default function RegisterPage() {
     password: '',
     confirmPassword: '',
   })
+  const [errors, setErrors] = useState({})
+  const [touched, setTouched] = useState({})
   const [loading, setLoading] = useState(false)
   const { signUp } = useAuth()
   const navigate = useNavigate()
 
-  const handleChange = (e) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
+  const validateField = (name, value, allData = formData) => {
+    let error = ''
+    
+    switch (name) {
+      case 'nombres':
+      case 'apellidos':
+      case 'direccion':
+        if (!value.trim()) error = 'Este campo es obligatorio'
+        break
+      case 'telefono':
+        if (!/^\d{4}-\d{4}$/.test(value) && !/^\d{8}$/.test(value)) {
+          error = 'Formato inválido (Ej: 7777-7777)'
+        }
+        break
+      case 'dui':
+        if (!/^\d{8}-\d$/.test(value)) {
+          error = 'Formato inválido (00000000-0)'
+        }
+        break
+      case 'correo':
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+          error = 'Correo electrónico inválido'
+        }
+        break
+      case 'password':
+        if (value.length < 6) {
+          error = 'Mínimo 6 caracteres'
+        }
+        break
+      case 'confirmPassword':
+        if (value !== allData.password) {
+          error = 'Las contraseñas no coinciden'
+        }
+        break
+      default:
+        break
+    }
+    
+    return error
   }
 
-  const validateDUI = (dui) => /^\d{8}-\d$/.test(dui)
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData(prev => ({ ...prev, [name]: value }))
+    
+    // Clear error when user types if field was already touched
+    if (touched[name]) {
+      const error = validateField(name, value, { ...formData, [name]: value })
+      setErrors(prev => ({ ...prev, [name]: error }))
+    }
+  }
+
+  const handleBlur = (e) => {
+    const { name, value } = e.target
+    setTouched(prev => ({ ...prev, [name]: true }))
+    const error = validateField(name, value)
+    setErrors(prev => ({ ...prev, [name]: error }))
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (formData.password !== formData.confirmPassword) {
-      toast.error('Las contraseñas no coinciden')
-      return
-    }
+    // Validate all fields before submission
+    const newErrors = {}
+    Object.keys(formData).forEach(key => {
+      const error = validateField(key, formData[key])
+      if (error) newErrors[key] = error
+    })
 
-    if (formData.password.length < 6) {
-      toast.error('La contraseña debe tener al menos 6 caracteres')
-      return
-    }
+    setErrors(newErrors)
+    setTouched(Object.keys(formData).reduce((acc, key) => ({ ...acc, [key]: true }), {}))
 
-    if (!validateDUI(formData.dui)) {
-      toast.error('El DUI debe tener el formato 00000000-0')
+    if (Object.keys(newErrors).length > 0) {
+      toast.error('Por favor corrige los errores en el formulario')
       return
     }
 
@@ -63,6 +118,10 @@ export default function RegisterPage() {
     }
   }
 
+  const getInputClass = (fieldName) => {
+    return `form-input ${touched[fieldName] && errors[fieldName] ? 'form-input-error' : ''}`
+  }
+
   return (
     <div className="auth-page">
       <div className="auth-card auth-card-wide">
@@ -81,24 +140,26 @@ export default function RegisterPage() {
               <input
                 type="text"
                 name="nombres"
-                required
                 value={formData.nombres}
                 onChange={handleChange}
-                className="form-input"
+                onBlur={handleBlur}
+                className={getInputClass('nombres')}
                 placeholder="Juan Carlos"
               />
+              {touched.nombres && errors.nombres && <span className="form-error-text">{errors.nombres}</span>}
             </div>
             <div className="form-group">
               <label className="form-label">Apellidos</label>
               <input
                 type="text"
                 name="apellidos"
-                required
                 value={formData.apellidos}
                 onChange={handleChange}
-                className="form-input"
+                onBlur={handleBlur}
+                className={getInputClass('apellidos')}
                 placeholder="Martínez López"
               />
+              {touched.apellidos && errors.apellidos && <span className="form-error-text">{errors.apellidos}</span>}
             </div>
           </div>
 
@@ -108,24 +169,26 @@ export default function RegisterPage() {
               <input
                 type="tel"
                 name="telefono"
-                required
                 value={formData.telefono}
                 onChange={handleChange}
-                className="form-input"
+                onBlur={handleBlur}
+                className={getInputClass('telefono')}
                 placeholder="7777-7777"
               />
+              {touched.telefono && errors.telefono && <span className="form-error-text">{errors.telefono}</span>}
             </div>
             <div className="form-group">
               <label className="form-label">Número de DUI</label>
               <input
                 type="text"
                 name="dui"
-                required
                 value={formData.dui}
                 onChange={handleChange}
-                className="form-input"
+                onBlur={handleBlur}
+                className={getInputClass('dui')}
                 placeholder="00000000-0"
               />
+              {touched.dui && errors.dui && <span className="form-error-text">{errors.dui}</span>}
             </div>
           </div>
 
@@ -134,12 +197,13 @@ export default function RegisterPage() {
             <input
               type="email"
               name="correo"
-              required
               value={formData.correo}
               onChange={handleChange}
-              className="form-input"
+              onBlur={handleBlur}
+              className={getInputClass('correo')}
               placeholder="tucorreo@ejemplo.com"
             />
+            {touched.correo && errors.correo && <span className="form-error-text">{errors.correo}</span>}
           </div>
 
           <div className="form-group">
@@ -147,12 +211,13 @@ export default function RegisterPage() {
             <input
               type="text"
               name="direccion"
-              required
               value={formData.direccion}
               onChange={handleChange}
-              className="form-input"
+              onBlur={handleBlur}
+              className={getInputClass('direccion')}
               placeholder="Tu dirección completa"
             />
+            {touched.direccion && errors.direccion && <span className="form-error-text">{errors.direccion}</span>}
           </div>
 
           <div className="form-grid-2">
@@ -161,24 +226,26 @@ export default function RegisterPage() {
               <input
                 type="password"
                 name="password"
-                required
                 value={formData.password}
                 onChange={handleChange}
-                className="form-input"
+                onBlur={handleBlur}
+                className={getInputClass('password')}
                 placeholder="Mínimo 6 caracteres"
               />
+              {touched.password && errors.password && <span className="form-error-text">{errors.password}</span>}
             </div>
             <div className="form-group">
               <label className="form-label">Confirmar contraseña</label>
               <input
                 type="password"
                 name="confirmPassword"
-                required
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className="form-input"
+                onBlur={handleBlur}
+                className={getInputClass('confirmPassword')}
                 placeholder="Repite tu contraseña"
               />
+              {touched.confirmPassword && errors.confirmPassword && <span className="form-error-text">{errors.confirmPassword}</span>}
             </div>
           </div>
 
