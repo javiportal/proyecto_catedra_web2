@@ -106,10 +106,10 @@ export default function OfferDetailPage() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+      <div className="rounded-xl shadow-sm border bg-[rgb(24,22,44)] border-[rgb(53,47,80)]">
 
-        {/* Header con gradiente */}
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-8 rounded-t-xl">
+        {/* header de los cupones*/}
+        <div className="bg-gradient-to-r from-[rgb(179,17,2)] to-[rgb(50,0,0)] p-8 rounded-t-xl">
           <span className="bg-white/20 text-white text-sm px-3 py-1 rounded-full">
             {oferta.rubros?.nombre}
           </span>
@@ -122,10 +122,10 @@ export default function OfferDetailPage() {
 
           {/* Precios */}
           <div className="flex items-baseline gap-4 mb-6">
-            <span className="text-4xl font-bold text-blue-700">
+            <span className="text-4xl font-bold text-[rgb(245,190,66)]">
               ${oferta.precio_oferta.toFixed(2)}
             </span>
-            <span className="text-xl text-gray-400 line-through">
+            <span className="text-xl line-through text-[rgb(110,107,142)]">
               ${oferta.precio_regular.toFixed(2)}
             </span>
             <span className="bg-green-100 text-green-700 text-sm font-bold px-3 py-1 rounded-full">
@@ -135,34 +135,34 @@ export default function OfferDetailPage() {
 
           {/* Descripción */}
           <div className="mb-6">
-            <h2 className="text-lg font-semibold text-gray-900 mb-2">Descripción</h2>
-            <p className="text-gray-600">{oferta.descripcion}</p>
+            <h2 className="text-lg font-semibold mb-2 text-[rgb(244,241,255)]">Descripción</h2>
+            <p className="text-[rgb(110,107,142)]">{oferta.descripcion}</p>
           </div>
 
           {oferta.otros_detalles && (
             <div className="mb-6">
-              <h2 className="text-lg font-semibold text-gray-900 mb-2">Otros detalles</h2>
-              <p className="text-gray-600">{oferta.otros_detalles}</p>
+              <h2 className="text-lg font-semibold mb-2 text-[rgb(244,241,255)]">Otros detalles</h2>
+              <p className="text-[rgb(110,107,142)]">{oferta.otros_detalles}</p>
             </div>
           )}
 
           {/* Info grid */}
-          <div className="grid grid-cols-2 gap-4 mb-8 bg-gray-50 rounded-lg p-4">
+          <div className="grid grid-cols-2 gap-4 mb-8 rounded-lg p-4 bg-[rgb(34,31,56)]">
             <div>
-              <p className="text-sm text-gray-500">Oferta válida hasta</p>
-              <p className="font-medium text-gray-900">{oferta.fecha_fin}</p>
+              <p className="text-sm text-[rgb(110,107,142)]">Oferta válida hasta</p>
+              <p className="font-medium text-[rgb(244,241,255)]">{ oferta.fecha_fin}</p>
             </div>
             <div>
-              <p className="text-sm text-gray-500">Fecha límite para canjear</p>
-              <p className="font-medium text-gray-900">{oferta.fecha_limite_cupon}</p>
+              <p className="text-sm text-[rgb(110,107,142)]">Fecha límite para canjear</p>
+              <p className="font-medium text-[rgb(244,241,255)]">{oferta.fecha_limite_cupon}</p>
             </div>
             <div>
-              <p className="text-sm text-gray-500">Cupones vendidos</p>
-              <p className="font-medium text-gray-900">{cuponesVendidos}</p>
+              <p className="text-sm text-[rgb(110,107,142)]">Cupones vendidos</p>
+              <p className="font-medium text-[rgb(244,241,255)]">{cuponesVendidos}</p>
             </div>
             <div>
-              <p className="text-sm text-gray-500">Cupones disponibles</p>
-              <p className="font-medium text-gray-900">
+              <p className="text-sm text-[rgb(110,107,142)]">Cupones disponibles</p>
+              <p className="font-medium text-[rgb(244,241,255)]">
                 {cuponesDisponibles !== null ? cuponesDisponibles : 'Ilimitados'}
               </p>
             </div>
@@ -171,16 +171,16 @@ export default function OfferDetailPage() {
           {/* Sección de compra */}
           <div className="mt-8">
             <div className="flex items-center gap-4 mb-4">
-              <span className="text-sm font-medium text-gray-700">Cantidad:</span>
-              <div className="flex items-center border border-gray-300 rounded-lg">
+              <span className="text-sm font-medium text-[rgb(244,241,255)]">Cantidad:</span>
+              <div className="flex items-center rounded-lg border border-[rgb(53,47,80)]">
                 <button
                   type="button"
                   onClick={() => setCantidad(prev => Math.max(1, prev - 1))}
-                  className="px-4 py-2 text-lg text-gray-700 hover:bg-gray-100"
+                  className="px-4 py-2 text-lg hover:opacity-70 text-[rgb(244,241,255)]"
                 >
                   −
                 </button>
-                <span className="px-4 py-2 font-medium min-w-[3rem] text-center text-gray-900">
+                <span className="px-4 py-2 font-medium min-w-[3rem] text-center text-[rgb(244,241,255)]">
                   {cantidad}
                 </span>
                 <button
@@ -189,7 +189,7 @@ export default function OfferDetailPage() {
                     if (cuponesDisponibles !== null && prev >= cuponesDisponibles) return prev
                     return prev + 1
                   })}
-                  className="px-4 py-2 text-lg text-gray-700 hover:bg-gray-100"
+                  className="px-4 py-2 text-lg hover:opacity-70 text-[rgb(244,241,255)]"
                 >
                   +
                 </button>
@@ -200,7 +200,7 @@ export default function OfferDetailPage() {
               type="button"
               onClick={handleComprar}
               disabled={agotado || processing}
-              className="w-full bg-blue-600 text-white py-4 rounded-lg text-lg font-semibold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-black text-yellow-500 py-4 rounded-lg text-lg font-semibold hover:bg-gray-950 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {processing
                 ? 'Procesando...'

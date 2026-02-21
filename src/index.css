@@ -3,20 +3,20 @@
 
 /* ─── Design Tokens ──────────────────────────────────── */
 :root {
-  --bg:           #0C0B19;
-  --surface:      #18162C;
-  --surface-2:    #221F38;
+  --bg:           #0c0b19;
+  --surface:      #18162c;
+  --surface-2:    #221f38;
   --surface-3:    #2C2848;
   --primary:      #E53448;
   --primary-dim:  rgba(229, 52, 72, 0.18);
   --primary-hover:#C82A3C;
-  --gold:         #F5BE42;
-  --gold-dim:     rgba(245, 190, 66, 0.14);
-  --text:         #F4F1FF;
-  --text-muted:   #6E6B8E;
+  --gold:         #f5bf42;
+  --gold-dim:     #f5be4224;
+  --text:         #f4f1ff;
+  --text-muted:   #6e6b8e;
   --text-dim:     #3D3A5A;
-  --border:       #2A273F;
-  --border-light: #352F50;
+  --border:       #2a273f;
+  --border-light: #352f50;
 
   --font-display: 'Playfair Display', Georgia, serif;
   --font-ui:      'Syne', system-ui, sans-serif;
@@ -338,7 +338,7 @@
   gap: 20px;
 }
 
-/* ─── Coupon Card ────────────────────────────────────── */
+/* ─── Coupon Card ───*/
 .coupon-card {
   background: var(--surface);
   border-radius: 16px;
