@@ -122,18 +122,18 @@ export default function MyCouponsPage() {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-gray-900 mb-6">Mis Cupones</h1>
+      <h1 className="text-3xl font-bold text-[rgb(245,190,66)]">Mis Cupones</h1>
 
       {/* Tabs */}
-      <div className="flex gap-1 bg-gray-100 rounded-lg p-1 mb-8">
+      <div className="flex gap-1 bg-[rgb(34,31,56)] rounded-lg p-1 mb-8">
         {tabs.map(t => (
           <button
             key={t.id}
             onClick={() => setTab(t.id)}
             className={`flex-1 py-2.5 px-4 rounded-md text-sm font-medium transition-colors ${
               tab === t.id
-                ? 'bg-white text-blue-700 shadow-sm'
-                : 'text-gray-600 hover:text-gray-900'
+                ? 'bg-[rgb(255,255,255)] text-black shadow-sm'
+                : 'text-gray-600 hover:text-gray-300'
             }`}
           >
             {t.label} ({t.count})
@@ -151,25 +151,25 @@ export default function MyCouponsPage() {
           {cuponesActuales.map(cupon => (
             <div
               key={cupon.id}
-              className="bg-white rounded-xl border border-gray-200 overflow-hidden flex"
+              className="bg-[rgb(34,31,56)] rounded-xl border border-[rgb(53,47,80)] overflow-hidden flex"
             >
               <div className={`w-2 ${
-                tab === 'disponibles' ? 'bg-green-500' :
+                tab === 'disponibles' ? 'bg-red-500' :
                 tab === 'canjeados' ? 'bg-blue-500' : 'bg-gray-400'
               }`} />
 
               <div className="flex-1 p-5">
                 <div className="flex items-start justify-between">
                   <div>
-                    <h3 className="font-semibold text-gray-900">{cupon.ofertas?.titulo}</h3>
-                    <p className="text-sm text-gray-500 mt-1">{cupon.ofertas?.empresas?.nombre}</p>
+                    <h3 className="font-semibold text-[rgb(244,241,255)]">{cupon.ofertas?.titulo}</h3>
+                    <p className="text-sm text-[rgb(110,107,142)] mt-1">{cupon.ofertas?.empresas?.nombre}</p>
                   </div>
-                  <span className="text-xl font-bold text-blue-700">
+                  <span className="text-xl font-bold text-[rgb(245,190,66)]">
                     ${cupon.ofertas?.precio_oferta?.toFixed(2)}
                   </span>
                 </div>
 
-                <div className="mt-3 flex items-center gap-4 text-sm text-gray-500">
+                <div className="mt-3 flex items-center gap-4 text-sm text-[rgb(110,107,142)]">
                   <span> {cupon.codigo}</span>
                   <span> Compra: {new Date(cupon.fecha_compra).toLocaleDateString('es-SV')}</span>
                   <span> Válido hasta: {cupon.ofertas?.fecha_limite_cupon}</span>
