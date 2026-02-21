@@ -3,7 +3,7 @@ import { Toaster } from 'react-hot-toast'
 import { AuthProvider } from './context/AuthContext'
 import Layout from './components/layout/Layout'
 import ProtectedRoute from './components/common/ProtectedRoute'
-
+import OfertasPorRubroPage from "./pages/OfertasPorRubroPage.jsx";
 import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
@@ -29,6 +29,7 @@ export default function App() {
         />
         <Routes>
           <Route path="/" element={<Layout />}>
+          <Route path="/ofertas-por-rubro" element={<OfertasPorRubroPage />} />
             <Route index element={<HomePage />} />
             <Route path="oferta/:id" element={<OfferDetailPage />} />
             <Route path="login" element={<LoginPage />} />
