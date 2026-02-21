@@ -9,6 +9,8 @@ import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import ChangePasswordPage from './pages/ChangePasswordPage'
+import OfferDetailPage from './pages/OfferDetailPage'
+import MyCouponsPage from './pages/MyCouponsPage'
 
 export default function App() {
   return (
@@ -28,6 +30,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<HomePage />} />
+            <Route path="oferta/:id" element={<OfferDetailPage />} />
             <Route path="login" element={<LoginPage />} />
             <Route path="registro" element={<RegisterPage />} />
             <Route path="forgot-password" element={<ForgotPasswordPage />} />
@@ -37,6 +40,11 @@ export default function App() {
               </ProtectedRoute>
             } />
           </Route>
+          <Route path="mis-cupones" element={
+          <ProtectedRoute>
+            <MyCouponsPage />
+          </ProtectedRoute>
+        } />
         </Routes>
       </AuthProvider>
     </BrowserRouter>
