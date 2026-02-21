@@ -9,7 +9,7 @@ export default function Footer() {
         <div>
           <p className="footer-brand-name">La <span>Cuponera</span></p>
           <p className="footer-tagline">
-            Las mejores ofertas y cupones de descuento en un solo lugar. Ahorra más en cada compra.
+            Las mejores ofertas y cupones de descuento en un solo lugar.
           </p>
         </div>
 
@@ -20,20 +20,12 @@ export default function Footer() {
           <Link to="/registro" className="footer-link">Crear cuenta</Link>
           <Link to="/mis-cupones" className="footer-link">Mis cupones</Link>
         </div>
-
-        <div>
-          <p className="footer-heading">Cuenta</p>
-          <Link to="/cambiar-password" className="footer-link">Cambiar contraseña</Link>
-          <Link to="/forgot-password" className="footer-link">Recuperar acceso</Link>
-        </div>
       </div>
-
       <div className="footer-bottom">
         <span className="footer-copy">
-          © {year} La Cuponera — Todos los derechos reservados
+          © {year} Cuartel General
         </span>
-        <span className="footer-divider">🎟️</span>
-        <span className="footer-copy">El Salvador</span>
+        <span className="footer-copy">El Salvador - ESEN </span>
       </div>
     </footer>
   )

@@ -28,11 +28,22 @@ export default function HomePage() {
         empresas (nombre, codigo),
         rubros (id, nombre)
       `)
-      .eq('estado', 'aprobada')
-      .lte('fecha_inicio', hoy)
-      .gte('fecha_fin', hoy)
+      .ilike('estado', 'aprobada')
 
-    if (!error) setOfertas(data || [])
+    if (error) {
+      console.error('Error fetching ofertas:', error)
+      setOfertas([])
+      setLoading(false)
+      return
+    }
+
+    const ofertasVigentes = (data || []).filter((oferta) => {
+      const inicioOk = !oferta.fecha_inicio || oferta.fecha_inicio <= hoy
+      const finOk = !oferta.fecha_fin || oferta.fecha_fin >= hoy
+      return inicioOk && finOk
+    })
+
+    setOfertas(ofertasVigentes)
     setLoading(false)
   }
 

@@ -65,12 +65,6 @@ export default function LoginPage() {
             />
           </div>
 
-          <div style={{ textAlign: 'right', marginBottom: '24px', marginTop: '-6px' }}>
-            <Link to="/forgot-password" className="form-link">
-              ¿Olvidaste tu contraseña?
-            </Link>
-          </div>
-
           <button type="submit" disabled={loading} className="btn-submit">
             {loading ? 'Ingresando...' : 'Iniciar Sesión'}
           </button>

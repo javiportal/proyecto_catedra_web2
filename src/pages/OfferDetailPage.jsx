@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../context/AuthContext'
+import { registrarCompra } from '../lib/comprasService'
 import toast from 'react-hot-toast'
 
 export default function OfferDetailPage() {
@@ -24,7 +25,7 @@ export default function OfferDetailPage() {
       .from('ofertas')
       .select(`
         *,
-        empresas (nombre, codigo, porcentaje_comision),
+        empresas (id, nombre, codigo, porcentaje_comision),
         rubros (nombre)
       `)
       .eq('id', id)
@@ -72,9 +73,33 @@ export default function OfferDetailPage() {
         })
       }
 
-      const { error } = await supabase.from('cupones').insert(cupones)
+      const { data: cuponesInsertados, error } = await supabase
+        .from('cupones')
+        .insert(cupones)
+        .select('id')
 
       if (error) throw error
+
+      const cuponIds = (cuponesInsertados || []).map((c) => c.id)
+      const cuponIdReferencia = cuponIds[0]
+
+      try {
+        await registrarCompra({
+          cuponId: cuponIdReferencia,
+          clienteId: profile.id,
+          ofertaId: oferta.id,
+          empresaId: oferta.empresas?.id,
+          monto: oferta.precio_oferta,
+          cantidad,
+          metodoPago: 'en_linea',
+          estado: 'completada',
+        })
+      } catch (compraError) {
+        if (cuponIds.length > 0) {
+          await supabase.from('cupones').delete().in('id', cuponIds)
+        }
+        throw compraError
+      }
 
       toast.success(`¡Compra exitosa! ${cantidad} cupón(es) generado(s).`)
       navigate('/mis-cupones')

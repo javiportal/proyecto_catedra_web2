@@ -14,7 +14,6 @@ export default function Navbar() {
     <nav className="navbar">
       <div className="nav-inner">
         <Link to="/" className="nav-logo">
-          <span className="nav-logo-icon">🎟️</span>
           La <span className="nav-logo-accent">Cuponera</span>
         </Link>
 
@@ -24,7 +23,6 @@ export default function Navbar() {
           {user ? (
             <>
               <Link to="/mis-cupones" className="nav-link">Mis Cupones</Link>
-              <Link to="/cambiar-password" className="nav-link">Contraseña</Link>
               <span className="nav-user">{profile?.nombres || user.email}</span>
               <button onClick={handleSignOut} className="btn-nav-danger">
                 Salir

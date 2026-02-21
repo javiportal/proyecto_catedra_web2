@@ -4,20 +4,30 @@ import { useAuth } from '../context/AuthContext'
 import { jsPDF } from 'jspdf'
 
 export default function MyCouponsPage() {
-  const { profile } = useAuth()
+  const { user } = useAuth()
   const [cupones, setCupones] = useState([])
   const [loading, setLoading] = useState(true)
   const [tab, setTab] = useState('disponibles')
 
   useEffect(() => {
-    if (profile) fetchCupones()
-  }, [profile])
+    if (!user?.id) {
+      setCupones([])
+      setLoading(false)
+      return
+    }
+
+    setLoading(true)
+    fetchCupones()
+  }, [user?.id])
 
   const fetchCupones = async () => {
     const { data, error } = await supabase
       .from('cupones')
       .select(`
         *,
+        clientes!inner (
+          user_id
+        ),
         ofertas (
           titulo,
           precio_oferta,
@@ -27,12 +37,17 @@ export default function MyCouponsPage() {
           empresas (nombre, codigo)
         )
       `)
-      .eq('cliente_id', profile.id)
+      .eq('clientes.user_id', user.id)
       .order('fecha_compra', { ascending: false })
 
-    if (!error) {
-      setCupones(data || [])
+    if (error) {
+      console.error('Error fetching cupones:', error)
+      setCupones([])
+      setLoading(false)
+      return
     }
+
+    setCupones((data ?? []).map(({ clientes, ...cupon }) => cupon))
     setLoading(false)
   }
 
@@ -155,9 +170,9 @@ export default function MyCouponsPage() {
                 </div>
 
                 <div className="mt-3 flex items-center gap-4 text-sm text-gray-500">
-                  <span>🎟️ {cupon.codigo}</span>
-                  <span>📅 Compra: {new Date(cupon.fecha_compra).toLocaleDateString('es-SV')}</span>
-                  <span>⏳ Válido hasta: {cupon.ofertas?.fecha_limite_cupon}</span>
+                  <span> {cupon.codigo}</span>
+                  <span> Compra: {new Date(cupon.fecha_compra).toLocaleDateString('es-SV')}</span>
+                  <span> Válido hasta: {cupon.ofertas?.fecha_limite_cupon}</span>
                 </div>
 
                 {tab === 'disponibles' && (
@@ -165,19 +180,19 @@ export default function MyCouponsPage() {
                     onClick={() => generarPDF(cupon)}
                     className="mt-3 bg-blue-50 text-blue-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-100"
                   >
-                    📄 Descargar PDF
+                    Descargar PDF
                   </button>
                 )}
 
                 {tab === 'canjeados' && (
                   <span className="mt-3 inline-block bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-xs font-medium">
-                    ✅ Canjeado
+                    Canjeado
                   </span>
                 )}
 
                 {tab === 'vencidos' && (
                   <span className="mt-3 inline-block bg-gray-100 text-gray-500 px-3 py-1 rounded-full text-xs font-medium">
-                    ⛔ Vencido
+                    Vencido
                   </span>
                 )}
               </div>
