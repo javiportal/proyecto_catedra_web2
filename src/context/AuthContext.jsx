@@ -8,13 +8,15 @@ export const useAuth = () => useContext(AuthContext)
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [profile, setProfile] = useState(null)
+  const [role, setRole] = useState(null)
+  const [empresaId, setEmpresaId] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null)
       if (session?.user) {
-        fetchProfile(session.user.id)
+        fetchUserData(session.user.id)
       } else {
         setLoading(false)
       }
@@ -24,9 +26,11 @@ export function AuthProvider({ children }) {
       async (_event, session) => {
         setUser(session?.user ?? null)
         if (session?.user) {
-          await fetchProfile(session.user.id)
+          await fetchUserData(session.user.id)
         } else {
           setProfile(null)
+          setRole(null)
+          setEmpresaId(null)
           setLoading(false)
         }
       }
@@ -35,18 +39,42 @@ export function AuthProvider({ children }) {
     return () => subscription.unsubscribe()
   }, [])
 
-  const fetchProfile = async (userId) => {
+  const fetchUserData = async (userId) => {
     try {
-      const { data, error } = await supabase
+      const { data: usuario, error: usuarioError } = await supabase
+        .from('usuarios')
+        .select('*')
+        .eq('user_id', userId)
+        .maybeSingle()
+
+      if (usuarioError) throw usuarioError
+
+      if (usuario) {
+        setRole(usuario.rol)
+        setEmpresaId(usuario.empresa_id || null)
+        setProfile(usuario)
+        return
+      }
+
+      const { data: cliente, error: clienteError } = await supabase
         .from('clientes')
         .select('*')
         .eq('user_id', userId)
-        .single()
+        .maybeSingle()
 
-      if (error) throw error
-      setProfile(data)
+      if (clienteError) throw clienteError
+
+      if (cliente) {
+        setRole('cliente')
+        setEmpresaId(null)
+        setProfile(cliente)
+      } else {
+        setRole(null)
+        setEmpresaId(null)
+        setProfile(null)
+      }
     } catch (error) {
-      console.error('Error fetching profile:', error)
+      console.error('Error fetching user data:', error)
     } finally {
       setLoading(false)
     }
@@ -93,6 +121,8 @@ export function AuthProvider({ children }) {
     if (error) throw error
     setUser(null)
     setProfile(null)
+    setRole(null)
+    setEmpresaId(null)
   }
 
   const resetPassword = async (email) => {
@@ -112,6 +142,8 @@ export function AuthProvider({ children }) {
   const value = {
     user,
     profile,
+    role,
+    empresaId,
     loading,
     signUp,
     signIn,

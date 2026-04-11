@@ -22,22 +22,32 @@ export default function Navbar() {
 
           {user ? (
             <>
-              {role === 'cliente' && <Link to="/mis-cupones" className="nav-link">Mis Cupones</Link>}
+              {role === 'cliente' && (
+                <Link to="/mis-cupones" className="nav-link">Mis Cupones</Link>
+              )}
               {role === 'admin' && (
                 <>
                   <Link to="/admin/empresas" className="nav-link">Empresas</Link>
                   <Link to="/admin/clientes" className="nav-link">Clientes</Link>
                   <Link to="/admin/rubros" className="nav-link">Rubros</Link>
                   <Link to="/admin/ofertas" className="nav-link">Ofertas</Link>
-                  <Link to="/admin/cupones" className="nav-link">Cupones</Link>
                 </>
               )}
-              {role === 'empresa' && <Link to="/empresa/ofertas" className="nav-link">Mis Ofertas</Link>}
-              {role === 'empleado' && <Link to="/empleado/canjear" className="nav-link">Canjear Cupón</Link>}
-              <span className="nav-user">{profile?.nombres || profile?.nombre || user.email}</span>
-              <button onClick={handleSignOut} className="btn-nav-danger">
-                Salir
-              </button>
+              {role === 'empresa' && (
+                <Link to="/empresa/ofertas" className="nav-link">Mis Ofertas</Link>
+              )}
+              {role === 'empleado' && (
+                <Link to="/empleado/canjear" className="nav-link">Canjear Cupón</Link>
+              )}
+              <span className="nav-user">
+                {role === 'cliente' ? (profile?.nombres || user.email) : (profile?.nombre || user.email)}
+                {role && role !== 'cliente' && (
+                  <span style={{ fontSize: '0.6rem', marginLeft: 6, opacity: 0.6, textTransform: 'uppercase' }}>
+                    {role}
+                  </span>
+                )}
+              </span>
+              <button onClick={handleSignOut} className="btn-nav-danger">Salir</button>
             </>
           ) : (
             <>
