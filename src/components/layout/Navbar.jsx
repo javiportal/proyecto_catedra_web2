@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
+import toast from 'react-hot-toast'
 
 export default function Navbar() {
   const { user, profile, role, signOut } = useAuth()
@@ -8,6 +9,16 @@ export default function Navbar() {
   const handleSignOut = async () => {
     await signOut()
     navigate('/')
+  }
+
+  const goToNewCoupon = () => {
+    if (role === 'admin') {
+      navigate('/admin/cupones?nuevo=1')
+      return
+    }
+
+    toast('Para crear un nuevo cupon, inicia sesion como admin')
+    navigate('/login')
   }
 
   return (
@@ -19,6 +30,7 @@ export default function Navbar() {
 
         <div className="nav-links">
           <Link to="/" className="nav-link">Ofertas</Link>
+          <button onClick={goToNewCoupon} className="nav-link">Nuevo Cupon</button>
 
           {user ? (
             <>

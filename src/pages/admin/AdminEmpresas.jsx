@@ -21,7 +21,11 @@ export default function AdminEmpresas() {
   const validate = () => {
     const e = {}
     if (!form.nombre.trim()) e.nombre = 'Requerido'
-    if (!form.codigo.trim()) e.codigo = 'Requerido'
+    if (!form.codigo.trim()) {
+      e.codigo = 'Requerido'
+    } else if (!/^[A-Z]{3}[0-9]{3}$/.test(form.codigo.trim().toUpperCase())) {
+      e.codigo = 'Formato invalido: 3 letras y 3 numeros (ej. ABC123)'
+    }
     if (!form.correo.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.correo)) e.correo = 'Correo invalido'
     if (!form.telefono.trim()) e.telefono = 'Requerido'
     if (form.porcentaje_comision < 0 || form.porcentaje_comision > 100) e.porcentaje_comision = 'Entre 0 y 100'
@@ -31,13 +35,19 @@ export default function AdminEmpresas() {
 
   const handleSubmit = async () => {
     if (!validate()) return
+
+    const payload = {
+      ...form,
+      codigo: form.codigo.trim().toUpperCase(),
+    }
+
     try {
       if (editing) {
-        const { error } = await supabase.from('empresas').update(form).eq('id', editing)
+        const { error } = await supabase.from('empresas').update(payload).eq('id', editing)
         if (error) throw error
         toast.success('Empresa actualizada')
       } else {
-        const { error } = await supabase.from('empresas').insert(form)
+        const { error } = await supabase.from('empresas').insert(payload)
         if (error) throw error
         toast.success('Empresa creada')
       }
@@ -93,7 +103,7 @@ export default function AdminEmpresas() {
             </div>
             <div className="form-group">
               <label className="form-label">Codigo</label>
-              <input className={`form-input ${errors.codigo ? 'form-input-error' : ''}`} value={form.codigo} onChange={e => setForm({ ...form, codigo: e.target.value.toUpperCase() })} maxLength={5} />
+              <input className={`form-input ${errors.codigo ? 'form-input-error' : ''}`} value={form.codigo} onChange={e => setForm({ ...form, codigo: e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '') })} maxLength={6} placeholder="Ej: ABC123" pattern="[A-Z]{3}[0-9]{3}" title="Debe tener 3 letras mayusculas y 3 numeros" />
               {errors.codigo && <span className="form-error-text">{errors.codigo}</span>}
             </div>
           </div>

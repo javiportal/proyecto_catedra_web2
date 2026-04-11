@@ -15,13 +15,22 @@ export default function LoginPage() {
     setLoading(true)
 
     try {
-      await signIn({ email, password })
+      const result = await signIn({ email, password })
       toast.success('¡Bienvenido!')
-      navigate('/')
+
+      if (result?.role === 'admin') {
+        navigate('/admin/cupones')
+      } else if (result?.role === 'empresa') {
+        navigate('/empresa/ofertas')
+      } else if (result?.role === 'empleado') {
+        navigate('/empleado/canjear')
+      } else {
+        navigate('/')
+      }
     } catch (error) {
       toast.error(
         error.message === 'Invalid login credentials'
-          ? 'Correo o contraseña incorrectos'
+          ? 'Usuario/correo o contraseña incorrectos'
           : error.message
       )
     } finally {
@@ -38,18 +47,18 @@ export default function LoginPage() {
         </div>
 
         <h1 className="auth-title">Iniciar Sesión</h1>
-        <p className="auth-sub">Accede a tu cuenta para ver tus cupones</p>
+        <p className="auth-sub">Accede a tu cuenta para ver tus cupones o al panel admin</p>
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label className="form-label">Correo electrónico</label>
+            <label className="form-label">Correo o usuario</label>
             <input
-              type="email"
+              type="text"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="form-input"
-              placeholder="tucorreo@ejemplo.com"
+              placeholder="tucorreo@ejemplo.com o admin"
             />
           </div>
 
@@ -73,6 +82,9 @@ export default function LoginPage() {
         <p className="form-link-subtle">
           ¿No tienes cuenta?{' '}
           <Link to="/registro">Regístrate aquí</Link>
+        </p>
+        <p className="form-link-subtle" style={{ marginTop: 8 }}>
+          Acceso rápido admin: usuario <strong>admin</strong> y contraseña <strong>admin123</strong>
         </p>
       </div>
     </div>
