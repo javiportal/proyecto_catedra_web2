@@ -7,7 +7,7 @@ import toast from 'react-hot-toast'
 
 export default function OfferDetailPage() {
   const { id } = useParams()
-  const { user, profile } = useAuth()
+  const { user, profile, role } = useAuth()
   const navigate = useNavigate()
 
   const [oferta, setOferta] = useState(null)
@@ -53,8 +53,13 @@ export default function OfferDetailPage() {
 
   const handleComprar = async () => {
     if (!user) {
-      toast.error('Debes iniciar sesión para comprar cupones')
+      toast.error('Debes iniciar sesion para comprar cupones')
       navigate('/login')
+      return
+    }
+
+    if (role !== 'cliente') {
+      toast.error('Solo los clientes pueden comprar cupones')
       return
     }
 

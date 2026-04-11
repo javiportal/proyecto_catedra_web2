@@ -12,6 +12,7 @@ import AdminClientes from './pages/admin/AdminClientes'
 import AdminRubros from './pages/admin/AdminRubros'
 import AdminOfertas from './pages/admin/AdminOfertas'
 import AdminCupones from './pages/admin/AdminCupones'
+import AdminEmpleados from './pages/admin/AdminEmpleados'
 import EmpresaOfertas from './pages/empresa/EmpresaOfertas'
 import CanjearCupon from './pages/empleado/CanjearCupon'
 
@@ -53,6 +54,11 @@ export default function App() {
         <Route path="admin/cupones" element={
           <ProtectedRoute allowedRoles={['admin']}>
             <AdminCupones />
+          </ProtectedRoute>
+        } />
+        <Route path="admin/empleados" element={
+          <ProtectedRoute allowedRoles={['admin']}>
+            <AdminEmpleados />
           </ProtectedRoute>
         } />
 

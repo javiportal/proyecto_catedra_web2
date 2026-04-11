@@ -5,6 +5,8 @@ export default function AdminClientes() {
   const [clientes, setClientes] = useState([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
+  const [detalle, setDetalle] = useState(null)
+  const [detalleExtra, setDetalleExtra] = useState({ cupones: 0, compras: 0 })
 
   useEffect(() => { fetchClientes() }, [])
 
@@ -12,6 +14,18 @@ export default function AdminClientes() {
     const { data } = await supabase.from('clientes').select('*').order('nombres')
     setClientes(data || [])
     setLoading(false)
+  }
+
+  const verDetalle = async (cliente) => {
+    setDetalle(cliente)
+    const [cuponesRes, comprasRes] = await Promise.all([
+      supabase.from('cupones').select('id', { count: 'exact', head: true }).eq('cliente_id', cliente.id),
+      supabase.from('compras').select('id', { count: 'exact', head: true }).eq('cliente_id', cliente.id),
+    ])
+    setDetalleExtra({
+      cupones: cuponesRes.count || 0,
+      compras: comprasRes.count || 0,
+    })
   }
 
   const filtered = clientes.filter(c =>
@@ -30,7 +44,7 @@ export default function AdminClientes() {
       <div className="admin-table-wrap">
         <table className="admin-table">
           <thead>
-            <tr><th>Nombre</th><th>Correo</th><th>Telefono</th><th>DUI</th><th>Direccion</th></tr>
+            <tr><th>Nombre</th><th>Correo</th><th>Telefono</th><th>DUI</th><th>Acciones</th></tr>
           </thead>
           <tbody>
             {filtered.map(c => (
@@ -39,14 +53,54 @@ export default function AdminClientes() {
                 <td>{c.correo}</td>
                 <td>{c.telefono}</td>
                 <td>{c.dui}</td>
-                <td>{c.direccion}</td>
+                <td>
+                  <button className="btn-sm btn-edit" onClick={() => verDetalle(c)}>Ver Detalle</button>
+                </td>
               </tr>
             ))}
             {filtered.length === 0 && <tr><td colSpan="5" className="text-center py-8 text-muted">No se encontraron clientes.</td></tr>}
           </tbody>
         </table>
       </div>
+
+      {detalle && (
+        <div className="detail-overlay" onClick={() => setDetalle(null)}>
+          <div className="detail-card" onClick={e => e.stopPropagation()}>
+            <button className="detail-close" onClick={() => setDetalle(null)}>&times;</button>
+            <h2 className="detail-title">{detalle.nombres} {detalle.apellidos}</h2>
+            <div className="detail-grid">
+              <div className="detail-field">
+                <div className="detail-label">Correo</div>
+                <div className="detail-value">{detalle.correo}</div>
+              </div>
+              <div className="detail-field">
+                <div className="detail-label">Telefono</div>
+                <div className="detail-value">{detalle.telefono || 'N/A'}</div>
+              </div>
+              <div className="detail-field">
+                <div className="detail-label">DUI</div>
+                <div className="detail-value">{detalle.dui || 'N/A'}</div>
+              </div>
+              <div className="detail-field">
+                <div className="detail-label">Direccion</div>
+                <div className="detail-value">{detalle.direccion || 'N/A'}</div>
+              </div>
+              <div className="detail-field">
+                <div className="detail-label">Total Cupones</div>
+                <div className="detail-value">{detalleExtra.cupones}</div>
+              </div>
+              <div className="detail-field">
+                <div className="detail-label">Total Compras</div>
+                <div className="detail-value">{detalleExtra.compras}</div>
+              </div>
+              <div className="detail-field">
+                <div className="detail-label">Registrado</div>
+                <div className="detail-value">{detalle.created_at ? new Date(detalle.created_at).toLocaleDateString('es-SV') : 'N/A'}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
-

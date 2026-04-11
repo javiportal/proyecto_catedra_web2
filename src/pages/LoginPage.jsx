@@ -10,8 +10,20 @@ export default function LoginPage() {
   const { signIn } = useAuth()
   const navigate = useNavigate()
 
+  const [errors, setErrors] = useState({})
+
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    const newErrors = {}
+    if (!email.trim()) newErrors.email = 'Ingresa tu correo o usuario'
+    if (!password) newErrors.password = 'Ingresa tu contrasena'
+    else if (password.length < 6 && email.trim().toLowerCase() !== 'admin')
+      newErrors.password = 'Minimo 6 caracteres'
+
+    setErrors(newErrors)
+    if (Object.keys(newErrors).length > 0) return
+
     setLoading(true)
 
     try {
@@ -54,24 +66,24 @@ export default function LoginPage() {
             <label className="form-label">Correo o usuario</label>
             <input
               type="text"
-              required
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="form-input"
+              onChange={(e) => { setEmail(e.target.value); setErrors(prev => ({ ...prev, email: '' })) }}
+              className={`form-input ${errors.email ? 'form-input-error' : ''}`}
               placeholder="tucorreo@ejemplo.com o admin"
             />
+            {errors.email && <span className="form-error-text">{errors.email}</span>}
           </div>
 
           <div className="form-group">
-            <label className="form-label">Contraseña</label>
+            <label className="form-label">Contrasena</label>
             <input
               type="password"
-              required
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="form-input"
+              onChange={(e) => { setPassword(e.target.value); setErrors(prev => ({ ...prev, password: '' })) }}
+              className={`form-input ${errors.password ? 'form-input-error' : ''}`}
               placeholder="••••••••"
             />
+            {errors.password && <span className="form-error-text">{errors.password}</span>}
           </div>
 
           <button type="submit" disabled={loading} className="btn-submit">

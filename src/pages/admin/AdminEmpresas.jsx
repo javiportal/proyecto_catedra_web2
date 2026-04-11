@@ -7,6 +7,8 @@ export default function AdminEmpresas() {
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
   const [editing, setEditing] = useState(null)
+  const [detalle, setDetalle] = useState(null)
+  const [detalleExtra, setDetalleExtra] = useState({ ofertas: 0, empleados: 0 })
   const [form, setForm] = useState({ nombre: '', codigo: '', direccion: '', telefono: '', correo: '', porcentaje_comision: 5 })
   const [errors, setErrors] = useState({})
 
@@ -16,6 +18,18 @@ export default function AdminEmpresas() {
     const { data } = await supabase.from('empresas').select('*').order('nombre')
     setEmpresas(data || [])
     setLoading(false)
+  }
+
+  const verDetalle = async (emp) => {
+    setDetalle(emp)
+    const [ofertasRes, empleadosRes] = await Promise.all([
+      supabase.from('ofertas').select('id', { count: 'exact', head: true }).eq('empresa_id', emp.id),
+      supabase.from('usuarios').select('id', { count: 'exact', head: true }).eq('empresa_id', emp.id).eq('rol', 'empleado'),
+    ])
+    setDetalleExtra({
+      ofertas: ofertasRes.count || 0,
+      empleados: empleadosRes.count || 0,
+    })
   }
 
   const validate = () => {
@@ -103,7 +117,7 @@ export default function AdminEmpresas() {
             </div>
             <div className="form-group">
               <label className="form-label">Codigo</label>
-              <input className={`form-input ${errors.codigo ? 'form-input-error' : ''}`} value={form.codigo} onChange={e => setForm({ ...form, codigo: e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '') })} maxLength={6} placeholder="Ej: ABC123" pattern="[A-Z]{3}[0-9]{3}" title="Debe tener 3 letras mayusculas y 3 numeros" />
+              <input className={`form-input ${errors.codigo ? 'form-input-error' : ''}`} value={form.codigo} onChange={e => setForm({ ...form, codigo: e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '') })} maxLength={6} placeholder="Ej: ABC123" />
               {errors.codigo && <span className="form-error-text">{errors.codigo}</span>}
             </div>
           </div>
@@ -148,6 +162,7 @@ export default function AdminEmpresas() {
                 <td>{emp.porcentaje_comision}%</td>
                 <td>
                   <div className="table-actions">
+                    <button className="btn-sm btn-edit" onClick={() => verDetalle(emp)}>Ver</button>
                     <button className="btn-sm btn-edit" onClick={() => handleEdit(emp)}>Editar</button>
                     <button className="btn-sm btn-delete" onClick={() => handleDelete(emp.id)}>Eliminar</button>
                   </div>
@@ -158,7 +173,49 @@ export default function AdminEmpresas() {
           </tbody>
         </table>
       </div>
+
+      {detalle && (
+        <div className="detail-overlay" onClick={() => setDetalle(null)}>
+          <div className="detail-card" onClick={e => e.stopPropagation()}>
+            <button className="detail-close" onClick={() => setDetalle(null)}>&times;</button>
+            <h2 className="detail-title">{detalle.nombre}</h2>
+            <div className="detail-grid">
+              <div className="detail-field">
+                <div className="detail-label">Codigo</div>
+                <div className="detail-value"><span className="badge-code">{detalle.codigo}</span></div>
+              </div>
+              <div className="detail-field">
+                <div className="detail-label">Correo</div>
+                <div className="detail-value">{detalle.correo || 'N/A'}</div>
+              </div>
+              <div className="detail-field">
+                <div className="detail-label">Telefono</div>
+                <div className="detail-value">{detalle.telefono || 'N/A'}</div>
+              </div>
+              <div className="detail-field">
+                <div className="detail-label">Direccion</div>
+                <div className="detail-value">{detalle.direccion || 'N/A'}</div>
+              </div>
+              <div className="detail-field">
+                <div className="detail-label">Comision</div>
+                <div className="detail-value">{detalle.porcentaje_comision}%</div>
+              </div>
+              <div className="detail-field">
+                <div className="detail-label">Total Ofertas</div>
+                <div className="detail-value">{detalleExtra.ofertas}</div>
+              </div>
+              <div className="detail-field">
+                <div className="detail-label">Total Empleados</div>
+                <div className="detail-value">{detalleExtra.empleados}</div>
+              </div>
+              <div className="detail-field">
+                <div className="detail-label">Registrada</div>
+                <div className="detail-value">{detalle.created_at ? new Date(detalle.created_at).toLocaleDateString('es-SV') : 'N/A'}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
-
