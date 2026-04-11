@@ -46,7 +46,9 @@ export default function Navbar() {
         <div className={`nav-links ${menuOpen ? 'nav-links-open' : ''}`}>
           <Link to="/" className="nav-link" onClick={closeMenu}>Ofertas</Link>
           <Link to="/ofertas-por-rubro" className="nav-link" onClick={closeMenu}>Por Rubro</Link>
-          <button onClick={goToNewCoupon} className="nav-link">Nuevo Cupon</button>
+          {role === 'admin' && (
+            <button onClick={goToNewCoupon} className="nav-link">Nuevo Cupon</button>
+          )}
 
           {user ? (
             <>
