@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../context/AuthContext'
 import toast from 'react-hot-toast'
+import './CanjearCupon.css'
 
 export default function CanjearCupon() {
   const { empresaId } = useAuth()
@@ -85,13 +86,13 @@ export default function CanjearCupon() {
   const canCanjear = cupon && cupon.estado === 'disponible' && !vencido
 
   return (
-    <div className="admin-page" style={{ maxWidth: 600, margin: '0 auto' }}>
+    <div className="admin-page canjear-container">
       <h1 className="admin-title">Canjear Cupon</h1>
 
       <div className="admin-form-card">
         <div className="form-group">
           <label className="form-label">Codigo del Cupon</label>
-          <div style={{ display: 'flex', gap: 8 }}>
+          <div className="canjear-search-row">
             <input
               className={`form-input ${error ? 'form-input-error' : ''}`}
               value={codigo}
@@ -108,7 +109,7 @@ export default function CanjearCupon() {
       </div>
 
       {cupon && (
-        <div className="admin-offer-card" style={{ marginTop: 24 }}>
+        <div className="admin-offer-card canjear-result-card">
           <div className="flex justify-between items-start mb-3">
             <div>
               <h3 className="text-xl font-bold text-main">{cupon.ofertas?.titulo}</h3>
@@ -129,7 +130,7 @@ export default function CanjearCupon() {
           </div>
 
           {canCanjear && (
-            <button className="btn-primary w-full" onClick={canjear} disabled={canjeando} style={{ padding: '14px 24px', fontSize: '1rem' }}>
+            <button className="btn-primary w-full canjear-confirm-btn" onClick={canjear} disabled={canjeando}>
               {canjeando ? 'Canjeando...' : 'Confirmar Canje'}
             </button>
           )}

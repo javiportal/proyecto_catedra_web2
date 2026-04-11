@@ -1,0 +1,12 @@
+.admin-rubros-form {
+  max-width: 500px;
+}
+
+.admin-rubros-input-row {
+  display: flex;
+  gap: 8px;
+}
+
+.admin-rubros-table {
+  max-width: 500px;
+}

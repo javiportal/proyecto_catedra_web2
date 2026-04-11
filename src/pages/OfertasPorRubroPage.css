@@ -1,0 +1,27 @@
+.ofertas-por-rubro-container {
+  max-width: 1280px;
+}
+
+.ofertas-rubro-section {
+  margin-bottom: 40px;
+}
+
+.ofertas-rubro-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.ofertas-rubro-tag {
+  font-size: 0.78rem;
+  padding: 5px 14px;
+}
+
+.ofertas-rubro-count {
+  font-size: 0.82rem;
+}
+
+.ofertas-rubro-grid {
+  padding: 0;
+}

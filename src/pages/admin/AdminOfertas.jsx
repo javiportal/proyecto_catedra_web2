@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import toast from 'react-hot-toast'
+import './AdminOfertas.css'
 
 export default function AdminOfertas() {
   const [ofertas, setOfertas] = useState([])
@@ -43,7 +44,7 @@ export default function AdminOfertas() {
         <span className="admin-count">{ofertas.filter(o => (o.estado || '').toUpperCase() === 'PENDIENTE').length} pendientes</span>
       </div>
 
-      <div className="filters-wrap" style={{ justifyContent: 'flex-start', padding: '0 0 24px' }}>
+      <div className="filters-wrap admin-ofertas-filter-row">
         {['PENDIENTE', 'APROBADA', 'RECHAZADA', 'TODAS'].map(f => (
           <button key={f} onClick={() => setFiltro(f)} className={`filter-pill ${filtro === f ? 'active' : ''}`}>
             {f.charAt(0) + f.slice(1).toLowerCase()}

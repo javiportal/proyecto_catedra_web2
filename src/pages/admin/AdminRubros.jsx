@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import toast from 'react-hot-toast'
+import './AdminRubros.css'
 
 export default function AdminRubros() {
   const [rubros, setRubros] = useState([])
@@ -56,10 +57,10 @@ export default function AdminRubros() {
   return (
     <div className="admin-page">
       <h1 className="admin-title">Gestion de Rubros</h1>
-      <div className="admin-form-card" style={{ maxWidth: 500 }}>
+      <div className="admin-form-card admin-rubros-form">
         <div className="form-group">
           <label className="form-label">{editing ? 'Editar Rubro' : 'Nuevo Rubro'}</label>
-          <div style={{ display: 'flex', gap: 8 }}>
+          <div className="admin-rubros-input-row">
             <input className={`form-input ${error ? 'form-input-error' : ''}`} value={nombre} onChange={e => setNombre(e.target.value)} placeholder="Nombre del rubro" onKeyDown={e => e.key === 'Enter' && handleSubmit()} />
             <button className="btn-primary" onClick={handleSubmit}>{editing ? 'Guardar' : 'Crear'}</button>
             {editing && <button className="btn-secondary" onClick={() => { setEditing(null); setNombre('') }}>Cancelar</button>}
@@ -67,7 +68,7 @@ export default function AdminRubros() {
           {error && <span className="form-error-text">{error}</span>}
         </div>
       </div>
-      <div className="admin-table-wrap" style={{ maxWidth: 500 }}>
+      <div className="admin-table-wrap admin-rubros-table">
         <table className="admin-table">
           <thead><tr><th>Nombre</th><th>Acciones</th></tr></thead>
           <tbody>

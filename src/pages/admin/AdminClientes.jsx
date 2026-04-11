@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
+import './AdminClientes.css'
 
 export default function AdminClientes() {
   const [clientes, setClientes] = useState([])
@@ -40,7 +41,7 @@ export default function AdminClientes() {
         <h1 className="admin-title">Clientes Registrados</h1>
         <span className="admin-count">{clientes.length} clientes</span>
       </div>
-      <input className="form-input mb-6" placeholder="Buscar por nombre, correo o DUI..." value={search} onChange={e => setSearch(e.target.value)} style={{ maxWidth: 400 }} />
+      <input className="form-input mb-6 admin-clientes-search" placeholder="Buscar por nombre, correo o DUI..." value={search} onChange={e => setSearch(e.target.value)} />
       <div className="admin-table-wrap">
         <table className="admin-table">
           <thead>

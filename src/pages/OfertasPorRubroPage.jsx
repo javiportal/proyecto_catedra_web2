@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { fetchOfertasAprobadasVigentes, agruparPorRubro } from "../lib/ofertasService";
+import { fetchOfertasAprobadasVigentes, agruparPorRubro } from "../services/ofertasService";
+import "./OfertasPorRubroPage.css";
 
 export default function OfertasPorRubroPage() {
   const [ofertas, setOfertas] = useState([]);
@@ -38,24 +39,24 @@ export default function OfertasPorRubroPage() {
   }
 
   return (
-    <div className="admin-page" style={{ maxWidth: 1280 }}>
+    <div className="admin-page ofertas-por-rubro-container">
       <div className="admin-header">
         <h1 className="admin-title">Ofertas por Rubro</h1>
         <span className="admin-count">{ofertas.length} ofertas activas</span>
       </div>
 
       {rubros.map((rubro) => (
-        <div key={rubro} style={{ marginBottom: 40 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
-            <span className="coupon-tag" style={{ fontSize: '0.78rem', padding: '5px 14px' }}>
+        <div key={rubro} className="ofertas-rubro-section">
+          <div className="ofertas-rubro-header">
+            <span className="coupon-tag ofertas-rubro-tag">
               {rubro}
             </span>
-            <span className="text-muted" style={{ fontSize: '0.82rem' }}>
+            <span className="text-muted ofertas-rubro-count">
               {agrupadas[rubro].length} oferta{agrupadas[rubro].length !== 1 ? 's' : ''}
             </span>
           </div>
 
-          <div className="offers-grid" style={{ padding: 0 }}>
+          <div className="offers-grid ofertas-rubro-grid">
             {agrupadas[rubro].map((oferta, i) => (
               <Link
                 to={`/oferta/${oferta.id}`}

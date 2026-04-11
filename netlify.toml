@@ -1,0 +1,13 @@
+[build]
+  command   = "npm run build"
+  publish   = "dist"
+
+# SPA fallback: all client-side routes return index.html with 200.
+# Without this, refreshing /mis-cupones or /admin/empresas returns a 404.
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200
+
+[build.environment]
+  NODE_VERSION = "20"

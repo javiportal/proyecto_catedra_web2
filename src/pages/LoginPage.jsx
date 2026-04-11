@@ -95,9 +95,6 @@ export default function LoginPage() {
           ¿No tienes cuenta?{' '}
           <Link to="/registro">Regístrate aquí</Link>
         </p>
-        <p className="form-link-subtle" style={{ marginTop: 8 }}>
-          Acceso rápido admin: usuario <strong>admin</strong> y contraseña <strong>admin123</strong>
-        </p>
       </div>
     </div>
   )

@@ -1,0 +1,21 @@
+.admin-cupones-approval-label {
+  margin-bottom: 6px;
+}
+
+.admin-cupones-approval-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.admin-cupones-code-row {
+  display: flex;
+  gap: 8px;
+}
+
+.admin-cupones-filter-row {
+  justify-content: flex-start;
+  padding: 0 0 16px;
+}

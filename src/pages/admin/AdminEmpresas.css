@@ -1,0 +1,14 @@
+.admin-empresas-header-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.admin-empresas-user-form {
+  border-left: 3px solid var(--gold);
+}
+
+.admin-empresas-user-form-hint {
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  margin-bottom: 16px;
+}

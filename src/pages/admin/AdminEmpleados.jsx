@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import toast from 'react-hot-toast'
+import './AdminEmpleados.css'
 
 export default function AdminEmpleados() {
   const [empleados, setEmpleados] = useState([])
@@ -198,11 +199,10 @@ export default function AdminEmpleados() {
       )}
 
       <input
-        className="form-input mb-6"
+        className="form-input mb-6 admin-empleados-search"
         placeholder="Buscar por nombre o empresa..."
         value={search}
         onChange={e => setSearch(e.target.value)}
-        style={{ maxWidth: 400 }}
       />
 
       <div className="admin-table-wrap">
